@@ -85,5 +85,4 @@ class InvoiceItemTest < Minitest::Test
     invoice_item = InvoiceItem.new(row)
     assert_equal "2012-03-27 14:54:09 UTC", invoice_item.updated_at
   end
-
 end
