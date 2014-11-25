@@ -8,7 +8,4 @@ class CustomerRepoTest <Minitest::Test
     customer_repo.load_file('test_customers.csv')
     assert_equal customer_repo.customer_repository.length, 10
   end
-
-
-  
 end
