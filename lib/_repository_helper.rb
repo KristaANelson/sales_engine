@@ -1,28 +1,4 @@
-require 'pry'
-require 'csv'
-require_relative 'customer'
-
-
-class CustomerRepository
-  attr_reader :customer_repository
-
-  def initialize
-    @customer_repository = []
-  end
-
-
-  def inspect
-    "I am a customer repo, inspect was called."
-  end
-  
-
-  def load_file(filename)
-    csv = CSV.open(filename, headers: true, header_converters: :symbol)
-    csv.each do |row|
-      @customer_repository << Customer.new(row)
-    end
-
-  end
+module RepositoryHelper
 
   def all
     @customer_repository
@@ -75,9 +51,4 @@ class CustomerRepository
     end
   end
 
-
 end
-
-# cust_repo = CustomerRepo.new
-# cust_repo.load_file('test_customers.csv')
-#

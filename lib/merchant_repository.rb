@@ -3,17 +3,21 @@ require 'csv'                # => true
 require_relative 'merchant'  # => true
 
 
-class MerchantRepo
+class MerchantRepository
   attr_reader :merchant_repository  # => nil
 
   def initialize
     @merchant_repository = []
   end
 
-  def load_file(filename = 'merchants.csv')
-    csv = CSV.open("./data/#{filename}", headers: true, header_converters: :symbol)
-    csv.each do |row|
-      @merchant_repository << Merchant.new(row)
+  def inspect
+    "I am a Merchant repo, inspect was called."
+  end
+
+  def load_file(filename, klass)
+    csv = CSV.open(filename, headers: true, header_converters: :symbol)
+    csv.map do |row|
+      klass.new(row)
     end
   end
 end
