@@ -15,6 +15,5 @@ class ItemRepo
     csv.each do |row|
       @item_repository << Item.new(row)
     end
-
   end
 end
