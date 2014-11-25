@@ -1,42 +1,40 @@
 require 'pry'
 require 'csv'
 require_relative 'customer'
+require_relative '_repository_helper'
 
 
 class CustomerRepository
-  attr_reader :customer_repository
+  include RepositoryHelper
 
-  def initialize
-    @customer_repository = []
+  attr_reader :repository, :filename
+
+  def initialize(filename = "../sales_engine/data/customers.csv")
+    @repository = []
+    @filename = filename
   end
-
 
   def inspect
     "I am a customer repo, inspect was called."
   end
-  
+
+  def process
+    #load_file(filename, Customer)
+  end
 
   def load_file(filename)
     csv = CSV.open(filename, headers: true, header_converters: :symbol)
     csv.each do |row|
-      @customer_repository << Customer.new(row)
-    end
-
-  end
-
-  def all
-    @customer_repository
-  end
-
-  def random
-    @customer_repository.sample
-  end
-
-  def find_by_id(criteria)
-    selected = customer_repository.find do |customer|
-      customer.id == criteria
+      repository << Customer.new(row)
     end
   end
+
+
+  # def find_by_id(criteria)
+  #   selected = customer_repository.find do |customer|
+  #     customer.id == criteria
+  #   end
+  # end
 
 
   def find_by_last_name(criteria)

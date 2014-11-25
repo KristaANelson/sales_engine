@@ -4,10 +4,10 @@ require_relative 'item'
 
 
 class ItemRepository
-  attr_reader :item_repository
+  attr_reader :repository
 
   def initialize
-    @item_repository = []
+    @repository = []
   end
 
   def inspect
@@ -17,7 +17,7 @@ class ItemRepository
   def load_file(filename = 'items.csv')
     csv = CSV.open("./data/#{filename}", headers: true, header_converters: :symbol)
     csv.each do |row|
-      @item_repository << Item.new(row)
+      repository << Item.new(row)
     end
   end
 end
