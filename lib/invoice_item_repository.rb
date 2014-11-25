@@ -3,11 +3,15 @@ require 'csv'
 require_relative 'invoice_item'
 
 
-class InvoiceItemRepo
+class InvoiceItemRepository
   attr_reader :invoice_item_repository
 
   def initialize
     @invoice_item_repository = []
+  end
+
+  def inspect
+    "I am a Invoice repo, inspect was called."
   end
 
   def load_file(filename = 'invoice_items.csv')

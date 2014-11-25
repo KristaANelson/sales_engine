@@ -3,11 +3,15 @@ require 'csv'
 require_relative 'item'
 
 
-class ItemRepo
+class ItemRepository
   attr_reader :item_repository
 
   def initialize
     @item_repository = []
+  end
+
+  def inspect
+    "I am a Item repo, inspect was called."
   end
 
   def load_file(filename = 'items.csv')
