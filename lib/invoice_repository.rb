@@ -4,10 +4,10 @@ require_relative 'invoice'
 
 
 class InvoiceRepository
-  attr_reader :invoice_repository
+  attr_reader :repository
 
   def initialize
-    @invoice_repository = []
+    @repository = []
   end
 
   def inspect
@@ -17,7 +17,7 @@ class InvoiceRepository
   def load_file(filename = 'invoices.csv')
     csv = CSV.open("./data/#{filename}", headers: true, header_converters: :symbol)
     csv.each do |row|
-      @invoice_repository << Invoice.new(row)
+      repository << Invoice.new(row)
     end
 
   end
