@@ -1,10 +1,10 @@
-require 'pry'                # => true
-require 'csv'                # => true
-require_relative 'item'  # => true
+require 'pry'
+require 'csv'
+require_relative 'item'
 
 
 class ItemRepo
-  attr_reader :item_repository  # => nil
+  attr_reader :item_repository
 
   def initialize
     @item_repository = []
