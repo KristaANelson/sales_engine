@@ -6,8 +6,8 @@ require_relative 'merchant'  # => true
 class MerchantRepository
   attr_reader :repository  # => nil
 
-  def initialize
-    @repository = []
+  def initialize(merchants)
+    @repository = merchants
   end
 
   def inspect
