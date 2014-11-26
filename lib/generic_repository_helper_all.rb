@@ -1,9 +1,9 @@
-module RepositoryHelper
+module GenericRepositoryHelper
 
-  def load_file(filename, klass)
+  def load_file(filename, entry_class)
     csv = CSV.open(filename, headers: true, header_converters: :symbol)
     csv.map do |row|
-      klass.new(row)
+      entry_class.new(row)
     end
   end
 
@@ -15,36 +15,36 @@ module RepositoryHelper
     @repository.sample
   end
 
-  def find_by_id(criteria)
-    find_by(id, criteria)
-  end
-
   def find_by(attribute, criteria)
     repository.find {|entry| entry.send(attribute) == criteria.capitalize.strip}
   end
 
-  def find_by_all(attribute, criteria)
+  def find_all_by(attribute, criteria)
     repository.select {|entry| entry.send(attribute) == criteria.capitalize.strip}
   end
 
-  def find_by_all_id(criteria)
-    find_by_all(id, criteria)
+  def find_by_id(criteria)
+    find_by(id, criteria)
+  end
+
+  def find_all_by_id(criteria)
+    find_all_by(id, criteria)
   end
 
   def find_by_created_at(criteria)
     find_by(created_at, criteria)
   end
 
-  def find_by_all_created_at(criteria)
-    find_by_all(created_at, criteria)
+  def find_all_by_created_at(criteria)
+    find_all_by(created_at, criteria)
   end
 
   def find_by_updated_at(criteria)
     find_by(updated_at, criteria)
   end
 
-  def find_by_all_updated_at(criteria)
-    find_by_all(updated_at, criteria)
+  def find_all_by_updated_at(criteria)
+    find_all_by(updated_at, criteria)
   end
 
 end

@@ -4,21 +4,16 @@ require_relative 'invoice_item'
 
 
 class InvoiceItemRepository
+  include GenericRepositoryHelper
+  include InvoiceItemRepositoryHelper
   attr_reader :repository
 
-  def initialize
+  def initialize(filename = "./data/invoice_items.csv")
     @repository = []
+    @filename = filename
   end
 
   def inspect
     "I am a Invoice repo, inspect was called."
-  end
-
-  def load_file(filename = 'invoice_items.csv')
-    csv = CSV.open("./data/#{filename}", headers: true, header_converters: :symbol)
-    csv.each do |row|
-      repository << InvoiceItem.new(row)
-    end
-
   end
 end
