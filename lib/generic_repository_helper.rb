@@ -1,3 +1,4 @@
+require 'pry'
 module GenericRepositoryHelper
 
   def load_file(filename, entry_class)

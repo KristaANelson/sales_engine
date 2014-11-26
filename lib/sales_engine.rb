@@ -28,8 +28,7 @@ class SalesEngine
   end
 
   def startup
-    # customer_repository.process     #maybe we should have this code instead.
-    customer_repository.load_file(CSV_FILES[:csv_file], Customer)    #romeeka has a problem with this. SalesEngine now knows about customer and csvs. Should it?
-
+    @customer_repository.process
+    # customer_repository.load_file(CSV_FILES[:csv_file], Customer)
   end
 end
