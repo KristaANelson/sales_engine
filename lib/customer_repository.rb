@@ -1,15 +1,16 @@
 require 'pry'
 require 'csv'
 require_relative 'customer'
-require_relative '_repository_helper'
+require_relative 'generic_repository_helper'
+require_relative 'customer_repository_helper'
 
 
-module CustomerRepository
+class CustomerRepository
   include GenericRepositoryHelper
   include CustomerRepositoryHelper
   attr_reader :repository, :filename
 
-  def initialize(filename = "../sales_engine/data/customers.csv")
+  def initialize(filename = "/Users/kristaanelson/Turing/take_2/sales_engine/data/customers.csv")
     @repository = []
     @filename = filename
   end
@@ -19,7 +20,7 @@ module CustomerRepository
   end
 
   def process
-    #load_file(filename, Customer)
+    @repository = load_file(filename, Customer)
   end
 
 end
