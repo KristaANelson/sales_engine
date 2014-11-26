@@ -6,8 +6,8 @@ require_relative 'invoice'
 class InvoiceRepository
   attr_reader :repository
 
-  def initialize
-    @repository = []
+  def initialize(invoices)
+    @repository = invoices
   end
 
   def inspect

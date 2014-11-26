@@ -10,17 +10,26 @@ class CustomerRepository
   include CustomerRepositoryHelper
   attr_reader :repository, :filename
 
-  def initialize(filename = "/Users/kristaanelson/Turing/take_2/sales_engine/data/customers.csv")
-    @repository = []
-    @filename = filename
+  def initialize(customers)
+    @repository = customers
   end
 
   def inspect
     "I am a customer repo, inspect was called."
   end
 
-  def process
-    @repository = load_file(filename, Customer)
+  def find_all_by_last_name(last_name)
+    @repository.select { |customer| customer.last_name == last_name }
   end
-
 end
+
+# def test_find_all_by_last_name
+#   repo = CustomerRepository.new([
+#     Customer.new(last_name: 'Smith'),
+#     Customer.new(last_name: 'Smith'),
+#     Customer.new(last_name: 'Cheek')
+#   ])
+#   assert_equal ['Cheek'], repo.find_all_by_last_name('Cheek')
+#   assert_equal ['Smith', 'Smith'], repo.find_all_by_last_name('Smith')
+#   assert_equal [], repo.find_all_by_last_name('O.o')
+# end
