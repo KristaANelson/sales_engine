@@ -7,7 +7,7 @@ class Merchant
 
   def initialize(row, parent)
     @id         = row[:id]
-    @name       = row[:name].downcase
+    @name       = row[:name]
     @created_at = row[:created_at]
     @updated_at = row[:updated_at]
     @parent     = parent

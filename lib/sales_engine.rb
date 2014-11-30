@@ -4,13 +4,13 @@ puts __dir__
 data_dir = File.expand_path('../data', __dir__)
 $LOAD_PATH.unshift(data_dir)
 
-require "csv"                               # => true         # => true
-require_relative "merchant_repository"      # => true
-require_relative "customer_repository"      # => true
-require_relative "invoice_repository"       # => true
-require_relative "invoice_item_repository"  # => true
-require_relative "transaction_repository"   # => true
-require_relative "item_repository"          # => true
+require "csv"
+require_relative "merchant_repository"
+require_relative "customer_repository"
+require_relative "invoice_repository"
+require_relative "invoice_item_repository"
+require_relative "transaction_repository"
+require_relative "item_repository"
 
 class SalesEngine
 
@@ -34,8 +34,8 @@ class SalesEngine
   def startup
     @merchant_repository     = MerchantRepository.new(load_csv_data(filepath, 'merchants.csv', Merchant))
     @invoice_repository      = InvoiceRepository.new(load_csv_data(filepath, 'invoices.csv', Invoice))
-    @item_repository         = ItemRepository.new
-    @invoice_item_repository = InvoiceItemRepository.new
+    @item_repository         = ItemRepository.new(load_csv_data(filepath, 'items.csv', Item))
+    @invoice_item_repository = InvoiceItemRepository.new(load_csv_data(filepath, 'invoice_items.csv', InvoiceItem))
     @customer_repository     = CustomerRepository.new(load_csv_data(filepath, 'customers.csv', Customer))
     @transaction_repository  = TransactionRepository.new(load_csv_data(filepath, 'transactions.csv', Transaction))
   end
