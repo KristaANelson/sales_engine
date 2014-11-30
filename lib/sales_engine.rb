@@ -4,20 +4,13 @@ puts __dir__
 data_dir = File.expand_path('../data', __dir__)
 $LOAD_PATH.unshift(data_dir)
 
-require "csv"
-require_relative "merchant"
-require_relative "merchant_repository"
-require_relative "customer"
-require_relative "customer_repository"
-require_relative "invoice"
-require_relative "invoice_repository"
-require_relative "invoice_item"
-require_relative "invoice_item_repository"
-require_relative "transaction"
-require_relative "transaction_repository"
-require_relative "item"
-require_relative "item_repository"
-
+require "csv"                               # => true         # => true
+require_relative "merchant_repository"      # => true
+require_relative "customer_repository"      # => true
+require_relative "invoice_repository"       # => true
+require_relative "invoice_item_repository"  # => true
+require_relative "transaction_repository"   # => true
+require_relative "item_repository"          # => true
 
 class SalesEngine
 
@@ -29,13 +22,13 @@ class SalesEngine
               :transaction_repository,
               :filepath
 
-  def initialize(filepath)
+  def initialize(filepath)    #represents a directory so I can pass in 'merchants.csv' into the suffix of filepath.
     @filepath = filepath
   end
 
-  def load_csv_data(directory, filename, entry_class)
-    csv = CSV.open(File.join(directory, filename), headers: true, header_converters: :symbol)
-    csv.map { |row| entry_class.new(row, self) }       #retuns array of objects
+  def load_csv_data(filepath, filename, entry_class)
+    csv = CSV.open(File.join(filepath, filename), headers: true, header_converters: :symbol)
+    csv.map { |row| entry_class.new(row, self) }       #retuns array of objects. Is this a problem? We have sales engine talking to lowest level classes.
   end
 
   def startup
@@ -44,6 +37,6 @@ class SalesEngine
     @item_repository         = ItemRepository.new
     @invoice_item_repository = InvoiceItemRepository.new
     @customer_repository     = CustomerRepository.new(load_csv_data(filepath, 'customers.csv', Customer))
-    @transaction_repository  = TransactionRepository.new
+    @transaction_repository  = TransactionRepository.new(load_csv_data(filepath, 'transactions.csv', Transaction))
   end
 end

@@ -1,32 +1,23 @@
-gem 'minitest'
-require
+require_relative 'test_helper'
 
+require "merchant_repository"
+require "customer_repository"
+require "invoice_repository"
+require "invoice_item_repository"
+require "transaction_repository"
+require "item_repository"
+require "sales_engine"
 
-
-require "csv"                               # => true
-require_relative "merchant"                 # => true
-require_relative "merchant_repository"      # => true
-require_relative "customer"                 # => true
-require_relative "customer_repository"      # => true
-require_relative "invoice"                  # => true
-require_relative "invoice_repository"       # => true
-require_relative "invoice_item"             # => true
-require_relative "invoice_item_repository"  # => true
-require_relative "transaction"              # => true
-require_relative "transaction_repository"   # => true
-require_relative "item"                     # => true
-require_relative "item_repository"          # => true
-
-
-
-
-def test_sales_engine_startup_method_loads_all_repositories
-  engine = SalesEngine.new(filepath)
-  engine.startup
-  assert merchant_repostory
-  assert invoice_repository
-  assert customer_repository
-  assert item_repository
-  assert invoice_item_repository
-  assert transaction_repository
+class SalesEngineTest < Minitest::Test
+  def test_sales_engine_startup_method_loads_all_repositories
+    filepath = File.expand_path('../../data', __FILE__)     #my test helper isn't working
+    engine = SalesEngine.new(filepath)
+    engine.startup
+    assert engine.merchant_repository
+    assert engine.invoice_repository
+    assert engine.customer_repository
+    assert engine.item_repository
+    assert engine.invoice_item_repository
+    assert engine.transaction_repository
+  end
 end
