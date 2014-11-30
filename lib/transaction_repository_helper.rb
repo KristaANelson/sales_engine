@@ -18,4 +18,9 @@ module TransactionRepositoryHelper
   def find_by_result(criteria)
     find_by(:result, criteria)
   end
+
+  def find_all_by_result(criteria)
+    find_all_by(:result, criteria)
+  end
+  
 end

@@ -9,8 +9,8 @@ class Transaction
               :parent
 
   def initialize(row, parent)
-    @id         = row[:id]
-    @invoice_id = row[:invoice_id]
+    @id         = row[:id].to_i
+    @invoice_id = row[:invoice_id].to_i
     @credit_card_number = row[:credit_card_number]
     @credit_card_expiration_date = row[:credit_card_expiration_date]
     @result     = row[:result]

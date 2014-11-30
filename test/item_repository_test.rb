@@ -4,13 +4,14 @@ require 'csv'
 require 'pry'
 
 class ItemRepoTest <Minitest::Test
+
   def test_find_all_by_name
     repo = ItemRepository.new([
     Item.new({:name => 'Item Qui Esse'}, self),
     Item.new({:name => 'Item Qui Esse'}, self),
     Item.new({:name => 'Item Autem Minima'}, self)
     ])
-    assert_equal 'Item Qui Esse', repo.find_all_by_name('Item Qui Esse')[0].name
+    assert_equal 'Item Qui Esse', repo.find_all_by_name('Item Qui Esse').first.name
     assert_equal 'Item Qui Esse', repo.find_all_by_name('Item Qui Esse')[1].name
     assert_equal 'Item Autem Minima', repo.find_all_by_name('Item Autem Minima')[0].name
     assert_equal  [] , repo.find_all_by_name('Item Qui Minima')

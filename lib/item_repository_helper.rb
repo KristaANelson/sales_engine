@@ -16,7 +16,7 @@ module ItemRepositoryHelper
   end
 
   def find_all_by_name(criteria)
-    find_all_by(:name, criteria)
+    find_all_by(:name, criteria.split.map(&:capitalize).join(" "))
   end
 
   def find_all_by_description(criteria)

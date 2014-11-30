@@ -6,6 +6,9 @@ require_relative 'merchant_repository_helper'  # => true
 
 
 class MerchantRepository
+  include GenericRepositoryHelper
+  include MerchantRepositoryHelper
+  
   attr_reader :repository  # => nil
 
   def initialize(merchants)   #array of merchant objects

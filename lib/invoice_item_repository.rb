@@ -11,7 +11,6 @@ class InvoiceItemRepository
 
   def initialize(invoice_items)
     @repository = invoice_items
-    @filename = filename
   end
 
   def inspect

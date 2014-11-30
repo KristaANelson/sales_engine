@@ -17,11 +17,11 @@ module GenericRepositoryHelper
   end
 
   def find_by(attribute, criteria)
-    repository.find {|entry| entry.send(attribute) == criteria.capitalize.strip}
+    repository.find {|entry| entry.send(attribute) == criteria}
   end
 
   def find_all_by(attribute, criteria)
-    repository.select {|entry| entry.send(attribute) == criteria.capitalize.strip}
+    repository.select {|entry| entry.send(attribute) == criteria}
   end
 
   def find_by_id(criteria)
