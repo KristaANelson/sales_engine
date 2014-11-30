@@ -1,9 +1,13 @@
 require 'pry'
 require 'csv'
 require_relative 'invoice'
+require_relative 'generic_repository_helper'
+require_relative 'invoice_repository_helper'
 
 
 class InvoiceRepository
+  include GenericRepositoryHelper
+  include InvoiceRepositoryHelper
   attr_reader :repository
 
   def initialize(invoices)

@@ -1,8 +1,8 @@
-lib_dir = File.expand_path('../lib', __dir__)    # => "/Users/kristaanelson/Turing/take_2/sales_engine/lib"
-$LOAD_PATH.unshift(lib_dir)                      # => ["/Users/kristaanelson/Turing/take_2/sales_engine/lib", "/Users/kristaanelson/.rvm/gems/ruby-2.1.3/gems/seeing_is_believing-2.1.4/lib", "/Users/kristaanelson/.rvm/rubies/ruby-2.1.3/lib/ruby/site_ruby/2.1.0", "/Users/kristaanelson/.rvm/rubies/ruby-2.1.3/lib/ruby/site_ruby/2.1.0/x86_64-darwin14.0", "/Users/kristaanelson/.rvm/rubies/ruby-2.1.3/lib/ruby/site_ruby", "/Users/kristaanelson/.rvm/rubies/ruby-2.1.3/lib/ruby/vendor_ruby/2.1.0", "/Users/kristaanelson/.rvm/rubies/ruby-2.1.3/lib/ruby/vendor_ruby/2.1.0/x86_64-darwin14.0", "/Users/kristaanelson/.rvm/rubies/ruby-2.1.3/lib/ruby/vendor_ruby", "/Users/kristaanelson/.rvm/rubies/ruby-2.1.3/lib/ruby/2.1.0", "/Users/kristaanelson/.rvm/rubies/ruby-2.1.3/lib/ruby/2.1.0/x86_64-darwin14.0"]
-puts __dir__                                     # => nil
-data_dir = File.expand_path('../data', __dir__)  # => "/Users/kristaanelson/Turing/take_2/sales_engine/data"
-$LOAD_PATH.unshift(data_dir)                     # => ["/Users/kristaanelson/Turing/take_2/sales_engine/data", "/Users/kristaanelson/Turing/take_2/sales_engine/lib", "/Users/kristaanelson/.rvm/gems/ruby-2.1.3/gems/seeing_is_believing-2.1.4/lib", "/Users/kristaanelson/.rvm/rubies/ruby-2.1.3/lib/ruby/site_ruby/2.1.0", "/Users/kristaanelson/.rvm/rubies/ruby-2.1.3/lib/ruby/site_ruby/2.1.0/x86_64-darwin14.0", "/Users/kristaanelson/.rvm/rubies/ruby-2.1.3/lib/ruby/site_ruby", "/Users/kristaanelson/.rvm/rubies/ruby-2.1.3/lib/ruby/vendor_ruby/2.1.0", "/Users/kristaanelson/.rvm/rubies/ruby-2.1.3/lib/ruby/vendor_ruby/2.1.0/x86_64-darwin14.0", "/Users/kristaanelson/.rvm/rubies/ruby-2.1.3/lib/ruby/vendor_ruby", "/Users/kristaanelson/.rvm/rubies/ruby-2.1.3/lib/ruby/2.1.0", "/Users/kristaanelson/.rvm/rubies/ruby-2.1.3/lib/ruby/2.1.0/x86_64-darwin14.0"]
+lib_dir = File.expand_path('../lib', __dir__)
+$LOAD_PATH.unshift(lib_dir)
+puts __dir__
+data_dir = File.expand_path('../data', __dir__)
+$LOAD_PATH.unshift(data_dir)
 
 require "csv"                               # => true         # => true
 require_relative "merchant_repository"      # => true
@@ -11,7 +11,6 @@ require_relative "invoice_repository"       # => true
 require_relative "invoice_item_repository"  # => true
 require_relative "transaction_repository"   # => true
 require_relative "item_repository"          # => true
-
 
 class SalesEngine
 

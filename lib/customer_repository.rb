@@ -8,7 +8,7 @@ require_relative 'customer_repository_helper'
 class CustomerRepository
   include GenericRepositoryHelper
   include CustomerRepositoryHelper
-  
+
   attr_reader :repository
 
   def initialize(customers)

@@ -9,7 +9,7 @@ class InvoiceTest < Minitest::Test
           status: "shipped",
           created_at: "2012-03-25 09:54:09 UTC",
           updated_at:"2012-03-25 09:54:09 UTC"}
-    invoice = Invoice.new(row)
+    invoice = Invoice.new(row, '')
     assert_equal "1", invoice.id
   end
 
@@ -20,7 +20,7 @@ class InvoiceTest < Minitest::Test
           status: "shipped",
           created_at: "2012-03-25 09:54:09 UTC",
           updated_at:"2012-03-25 09:54:09 UTC"}
-        invoice = Invoice.new(row)
+        invoice = Invoice.new(row, '')
     assert_equal "1", invoice.customer_id
   end
 
@@ -31,7 +31,7 @@ class InvoiceTest < Minitest::Test
           status: "shipped",
           created_at: "2012-03-25 09:54:09 UTC",
           updated_at:"2012-03-25 09:54:09 UTC"}
-    invoice = Invoice.new(row)
+    invoice = Invoice.new(row, '')
     assert_equal "26", invoice.merchant_id
   end
 
@@ -42,7 +42,7 @@ class InvoiceTest < Minitest::Test
           status: "shipped",
           created_at: "2012-03-25 09:54:09 UTC",
           updated_at:"2012-03-25 09:54:09 UTC"}
-    invoice = Invoice.new(row)
+    invoice = Invoice.new(row, '')
     assert_equal "shipped", invoice.status
   end
 
@@ -53,7 +53,7 @@ class InvoiceTest < Minitest::Test
           status: "shipped",
           created_at: "2012-03-25 09:54:09 UTC",
           updated_at:"2012-03-25 09:54:09 UTC"}
-    invoice = Invoice.new(row)
+    invoice = Invoice.new(row, '')
     assert_equal "2012-03-25 09:54:09 UTC", invoice.created_at
   end
 
@@ -64,7 +64,7 @@ class InvoiceTest < Minitest::Test
           status: "shipped",
           created_at: "2012-03-25 09:54:09 UTC",
           updated_at:"2012-03-25 09:54:09 UTC"}
-    invoice = Invoice.new(row)
+    invoice = Invoice.new(row, '')
     assert_equal "2012-03-25 09:54:09 UTC", invoice.updated_at
   end
 end

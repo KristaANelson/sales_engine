@@ -3,9 +3,15 @@ require 'invoice_repository'
 require 'csv'
 
 class InvoiceRepoTest <Minitest::Test
-  def test_load_file_method_and_that_it_loads_rows
-    invoice_repo = InvoiceRepo.new
-    invoice_repo.load_file('test_invoices.csv')
-    assert_equal 10, invoice_repo.invoice_repository.length
+  def test_find_all_by_customer_id
+    repo = InvoiceRepository.new([
+      Invoice.new({:customer_id => "111"}, self),
+      Invoice.new({:customer_id => "222"}, self),
+      Invoice.new({:customer_id => "222"}, self)
+    ])
+    assert_equal '111', repo.find_all_by_customer_id('111')[0].customer_id
+    assert_equal '222', repo.find_all_by_customer_id('222')[0].customer_id
+    assert_equal '222', repo.find_all_by_customer_id('222')[1].customer_id
+    assert_equal  [] , repo.find_all_by_customer_id('333')
   end
 end
