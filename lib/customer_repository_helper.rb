@@ -1,5 +1,6 @@
 require 'pry'
 module CustomerRepositoryHelper
+
   def find_by_last_name(criteria)
     find_by(:last_name, criteria)
   end

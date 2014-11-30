@@ -1,7 +1,7 @@
 require 'pry'
 module GenericRepositoryHelper
 
-  def load_file(filename, entry_class)
+  def load_file(filename, entry_class)   #do we need this method since we have a load in sales engine?
     csv = CSV.open(filename, headers: true, header_converters: :symbol)
     csv.map do |row|
       entry_class.new(row)

@@ -8,7 +8,8 @@ require_relative 'customer_repository_helper'
 class CustomerRepository
   include GenericRepositoryHelper
   include CustomerRepositoryHelper
-  attr_reader :repository, :filename
+
+  attr_reader :repository
 
   def initialize(customers)
     @repository = customers   #@repository should be an array of objects
@@ -17,4 +18,5 @@ class CustomerRepository
   def inspect
     "I am a customer repo, inspect was called."
   end
+
 end
