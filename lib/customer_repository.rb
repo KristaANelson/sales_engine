@@ -11,7 +11,7 @@ class CustomerRepository
   attr_reader :repository, :filename
 
   def initialize(customers)
-    @repository = customers
+    @repository = customers   #@repository should be an array of objects
   end
 
   def inspect

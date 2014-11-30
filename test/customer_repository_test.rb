@@ -1,6 +1,7 @@
 require_relative 'test_helper'
 require 'customer_repository'
 require 'csv'
+require 'pry'
 
 class CustomerRepoTest <Minitest::Test
   def test_find_all_by_last_name
@@ -14,4 +15,6 @@ class CustomerRepoTest <Minitest::Test
     assert_equal 'Smith', repo.find_all_by_last_name('Smith')[0].last_name
     assert_equal [], repo.find_all_by_last_name('O.o')
   end
+
+
 end
