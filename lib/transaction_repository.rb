@@ -1,23 +1,22 @@
 require 'pry'
 require 'csv'
 require_relative 'transaction'
+require_relative 'generic_repository_helper'
+require_relative 'transaction_repository_helper'
 
 
 class TransactionRepository
-  attr_reader :transaction_repository
+  include GenericRepositoryHelper
+  include TransactionRepositoryHelper
 
-  def initialize
-    @transaction_repository = []
+  attr_reader :repository
+
+  def initialize(transactions)   #actual array of transaction objects
+    @repository = transactions
   end
 
   def inspect
     "I am a Transaction repo, inspect was called."
   end
 
-  def load_file(filename = 'transactions.csv')
-    csv = CSV.open("./data/#{filename}", headers: true, header_converters: :symbol)
-    csv.each do |row|
-      @transaction_repository << Transaction.new(row)
-    end
-  end
 end
