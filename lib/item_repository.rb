@@ -8,13 +8,19 @@ class ItemRepository
   include GenericRepositoryHelper
   include ItemRepositoryHelper
 
-  attr_reader :repository
+  attr_reader :repository, :sales_engine
 
-  def initialize(items)
-    @repository = items
+  def initialize(sales_engine)
+    @sales_engine = sales_engine
+    @repository = []
   end
-  
+
   def inspect
     "I am a Item repo, inspect was called."
+  end
+
+  def loader(filepath)
+    csv = CSV.open(File.join(filepath, 'items.csv'), headers: true, header_converters: :symbol)
+    @repository = csv.map { |row| Item.new(row, self) }
   end
 end

@@ -4,6 +4,7 @@ puts __dir__
 data_dir = File.expand_path('../data', __dir__)
 $LOAD_PATH.unshift(data_dir)
 
+require 'pry'
 require "csv"
 require_relative "merchant_repository"
 require_relative "customer_repository"
@@ -24,19 +25,28 @@ class SalesEngine
 
   def initialize(filepath)    #represents a directory so I can pass in 'merchants.csv' into the suffix of filepath.
     @filepath = filepath
-  end
-
-  def load_csv_data(filepath, filename, entry_class)
-    csv = CSV.open(File.join(filepath, filename), headers: true, header_converters: :symbol)
-    csv.map { |row| entry_class.new(row, self) }       #retuns array of objects. Is this a problem? We have sales engine talking to lowest level classes.
+    @merchant_repository     = MerchantRepository.new(self)
+    @invoice_repository      = InvoiceRepository.new(self)
+    @item_repository         = ItemRepository.new(self)
+    @invoice_item_repository = InvoiceItemRepository.new(self)
+    @customer_repository     = CustomerRepository.new(self)
+    @transaction_repository  = TransactionRepository.new(self)
   end
 
   def startup
-    @merchant_repository     = MerchantRepository.new(load_csv_data(filepath, 'merchants.csv', Merchant))
-    @invoice_repository      = InvoiceRepository.new(load_csv_data(filepath, 'invoices.csv', Invoice))
-    @item_repository         = ItemRepository.new(load_csv_data(filepath, 'items.csv', Item))
-    @invoice_item_repository = InvoiceItemRepository.new(load_csv_data(filepath, 'invoice_items.csv', InvoiceItem))
-    @customer_repository     = CustomerRepository.new(load_csv_data(filepath, 'customers.csv', Customer))
-    @transaction_repository  = TransactionRepository.new(load_csv_data(filepath, 'transactions.csv', Transaction))
+    merchant_repository.loader(filepath)
+    invoice_repository.loader(filepath)
+    item_repository.loader(filepath)
+    invoice_item_repository.loader(filepath)
+    customer_repository.loader(filepath)
+    transaction_repository.loader(filepath)
+  end
+
+  def find_invoices_using_customer_id(id)
+    invoice_repository.find_all_by_customer_id(id)
+  end
+
+  def find_item_using_item_id(item_id)
+    item_repository.find_by_id(item_id)
   end
 end

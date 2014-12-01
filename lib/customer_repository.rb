@@ -9,14 +9,25 @@ class CustomerRepository
   include GenericRepositoryHelper
   include CustomerRepositoryHelper
 
-  attr_reader :repository
+  attr_reader :repository, :sales_engine, :file
 
-  def initialize(customers)
-    @repository = customers   #@repository should be an array of objects
+  def initialize(sales_engine)
+    @repository = []
+    @sales_engine = sales_engine
   end
 
   def inspect
     "I am a customer repo, inspect was called."
   end
+
+  def find_invoices_using(id)
+    sales_engine.find_invoices_using_customer_id(id)
+  end
+
+  def loader(filepath)
+    csv = CSV.open(File.join(filepath, 'customers.csv'), headers: true, header_converters: :symbol)
+    @repository = csv.map { |row| Customer.new(row, self) }
+  end
+
 
 end

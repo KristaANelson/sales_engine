@@ -8,21 +8,20 @@ require_relative 'invoice_repository_helper'
 class InvoiceRepository
   include GenericRepositoryHelper
   include InvoiceRepositoryHelper
-  attr_reader :repository
+  attr_reader :repository, :sales_engine
 
-  def initialize(invoices)
-    @repository = invoices
+  def initialize(sales_engine)
+    @sales_engine = sales_engine
+    @repository = []
   end
 
   def inspect
     "I am a Invoice repo, inspect was called."
   end
 
-  def load_file(filename = 'invoices.csv')
-    csv = CSV.open("./data/#{filename}", headers: true, header_converters: :symbol)
-    csv.each do |row|
-      repository << Invoice.new(row)
-    end
-
+  def loader(filepath)
+    csv = CSV.open(File.join(filepath, 'invoices.csv'), headers: true, header_converters: :symbol)
+    @repository = csv.map { |row| Invoice.new(row, self) }
   end
+
 end
