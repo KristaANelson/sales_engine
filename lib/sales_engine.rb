@@ -12,6 +12,7 @@ require_relative "invoice_repository"
 require_relative "invoice_item_repository"
 require_relative "transaction_repository"
 require_relative "item_repository"
+require 'bigdecimal'
 
 class SalesEngine
 
@@ -48,5 +49,19 @@ class SalesEngine
 
   def find_item_using_item_id(item_id)
     item_repository.find_by_id(item_id)
+  end
+
+  def find_invoice_using(invoice_id)
+    invoice_repository.find_by_id(invoice_id)
+  end
+
+  def find_transcations_using_invoice(id)
+    transaction_repository.find_all_by_invoice_id(id)
+  end
+
+  def find_items_using_invoice(id)
+    invoice_item_objects = invoice_item_repository.find_all_by_invoice_id(id)
+    item_ids = invoice_item_objects.map {|invoice_item| invoice_item.item_id}
+    item_ids.map {|item_id| item_repository.find_all_by_id(item_id)}
   end
 end

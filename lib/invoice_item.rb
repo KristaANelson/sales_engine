@@ -13,6 +13,10 @@ class InvoiceItem
   end
 
   def item
-    parent.find_items_using(item_id)
+    parent.find_item_using(item_id)
+  end
+
+  def invoice
+    parent.find_invoice_using(invoice_id)
   end
 end
