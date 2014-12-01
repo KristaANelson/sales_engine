@@ -1,17 +1,16 @@
 lib_dir = File.expand_path('../lib', __dir__)
 $LOAD_PATH.unshift(lib_dir)
-puts __dir__
 data_dir = File.expand_path('../data', __dir__)
 $LOAD_PATH.unshift(data_dir)
 
 require 'pry'
 require "csv"
-require_relative "merchant_repository"
-require_relative "customer_repository"
-require_relative "invoice_repository"
-require_relative "invoice_item_repository"
-require_relative "transaction_repository"
-require_relative "item_repository"
+require "merchant_repository"
+require "customer_repository"
+require "invoice_repository"
+require "invoice_item_repository"
+require "transaction_repository"
+require "item_repository"
 require 'bigdecimal'
 
 class SalesEngine
@@ -26,12 +25,12 @@ class SalesEngine
 
   def initialize(filepath)    #represents a directory so I can pass in 'merchants.csv' into the suffix of filepath.
     @filepath = filepath
-    @merchant_repository     = MerchantRepository.new(self)
-    @invoice_repository      = InvoiceRepository.new(self)
-    @item_repository         = ItemRepository.new(self)
-    @invoice_item_repository = InvoiceItemRepository.new(self)
-    @customer_repository     = CustomerRepository.new(self)
-    @transaction_repository  = TransactionRepository.new(self)
+    @merchant_repository     ||= MerchantRepository.new(self)
+    @invoice_repository      ||= InvoiceRepository.new(self)
+    @item_repository         ||= ItemRepository.new(self)
+    @invoice_item_repository ||= InvoiceItemRepository.new(self)
+    @customer_repository     ||= CustomerRepository.new(self)
+    @transaction_repository  ||= TransactionRepository.new(self)
   end
 
   def startup
@@ -62,6 +61,22 @@ class SalesEngine
   def find_items_using_invoice(id)
     invoice_item_objects = invoice_item_repository.find_all_by_invoice_id(id)
     item_ids = invoice_item_objects.map {|invoice_item| invoice_item.item_id}
-    item_ids.map {|item_id| item_repository.find_all_by_id(item_id)}
+    item_ids.map {|item_id| item_repository.find_by_id(item_id)}
+  end
+
+  def find_customer_using_customer_id(customer_id)
+    customer_repository.find_by_id(customer_id)
+  end
+
+  def find_invoice_items_using_invoice_id(id)
+    invoice_item_repository.find_all_by_invoice_id(id)
+  end
+
+  def find_invoice_items_using_item_id(id)
+    invoice_item_repository.find_all_by_item_id(id)
+  end
+
+  def find_merchant_using_merchant_id(merchant_id)
+    merchant_repository.find_by_id(merchant_id)
   end
 end
