@@ -18,4 +18,12 @@ attr_reader :id, :customer_id, :merchant_id, :status, :created_at, :updated_at, 
   def items
     parent.find_items_using_id(id)
   end
+
+  def customer
+    parent.find_customer_using_customer_id(customer_id)
+  end
+
+  def invoice_items
+    parent.find_invoice_items_using_invoice_id(id)
+  end
 end
