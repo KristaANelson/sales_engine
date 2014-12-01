@@ -1,5 +1,11 @@
 class Invoice
-attr_reader :id, :customer_id, :merchant_id, :status, :created_at, :updated_at, :parent
+attr_reader :id,
+            :customer_id,
+            :merchant_id,
+            :status,
+            :created_at,
+            :updated_at,
+            :parent
 
   def initialize(row, parent)
     @id           = row[:id].to_i
@@ -17,5 +23,9 @@ attr_reader :id, :customer_id, :merchant_id, :status, :created_at, :updated_at, 
 
   def items
     parent.find_items_using_id(id)
+  end
+
+  def customer
+    parent.find_customers_using(customer_id)
   end
 end

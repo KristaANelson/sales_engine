@@ -29,5 +29,4 @@ class CustomerRepository
     @repository = csv.map { |row| Customer.new(row, self) }
   end
 
-
 end

@@ -18,4 +18,9 @@ class Transaction
     @updated_at = row[:updated_at]
     @parent     = parent
   end
+
+
+  def invoice
+    parent.find_invoices_using(invoice_id)
+  end
 end
