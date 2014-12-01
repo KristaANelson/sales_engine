@@ -26,6 +26,10 @@ attr_reader :id,
   end
 
   def customer
-    parent.find_customers_using(customer_id)
+    parent.find_customer_using_customer_id(customer_id)
+  end
+
+  def invoice_items
+    parent.find_invoice_items_using_invoice_id(id)
   end
 end

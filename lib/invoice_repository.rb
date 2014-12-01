@@ -32,8 +32,11 @@ class InvoiceRepository
     sales_engine.find_items_using_invoice(id)
   end
 
-  def find_customers_using(customer_id)
-    sales_engine.find_customers_using_customer_id(customer_id)
+  def find_customer_using_customer_id(customer_id)
+    sales_engine.find_customer_using_customer_id(customer_id)
   end
 
+  def find_invoice_items_using_invoice_id(id)
+    sales_engine.find_invoice_items_using_invoice_id(id)
+  end
 end
