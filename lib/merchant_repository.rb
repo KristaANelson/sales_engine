@@ -24,4 +24,12 @@ class MerchantRepository
     csv = CSV.open(File.join(filepath, 'merchants.csv'), headers: true, header_converters: :symbol)
     @repository = csv.map { |row| Merchant.new(row, self) }
   end
+
+  def find_items_using(id)
+    sales_engine.find_items_using_merchant(id)
+  end
+
+  def find_invoices_using(id)
+    sales_engine.find_invoices_using_merchant(id)
+  end
 end

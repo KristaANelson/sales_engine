@@ -24,4 +24,8 @@ class TransactionRepository
     csv = CSV.open(File.join(filepath, 'transactions.csv'), headers: true, header_converters: :symbol)
     @repository = csv.map { |row| Transaction.new(row, self) }
   end
+
+  def find_invoices_using(invoice_id)
+    sales_engine.find_invoices_using_invoice_id(invoice_id)
+  end
 end

@@ -1,5 +1,11 @@
 class Invoice
-attr_reader :id, :customer_id, :merchant_id, :status, :created_at, :updated_at, :parent
+attr_reader :id,
+            :customer_id,
+            :merchant_id,
+            :status,
+            :created_at,
+            :updated_at,
+            :parent
 
   def initialize(row, parent)
     @id           = row[:id].to_i
