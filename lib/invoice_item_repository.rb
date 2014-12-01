@@ -7,7 +7,7 @@ require_relative 'invoice_item_repository_helper'
 class InvoiceItemRepository
   include GenericRepositoryHelper
   include InvoiceItemRepositoryHelper
-  
+
   attr_reader :repository, :sales_engine
 
   def initialize(sales_engine)
@@ -24,7 +24,10 @@ class InvoiceItemRepository
     @repository = csv.map { |row| InvoiceItem.new(row, self) }
   end
 
-  def find_items_using(item_id)
+  def find_item_using(item_id)
     sales_engine.find_item_using_item_id(item_id)
+  end
+  def find_invoice_using(invoice_id)
+    sales_engine.find_invoice_using(invoice_id)
   end
 end

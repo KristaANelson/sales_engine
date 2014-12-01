@@ -24,4 +24,12 @@ class InvoiceRepository
     @repository = csv.map { |row| Invoice.new(row, self) }
   end
 
+  def find_transactions_using_id(id)
+    sales_engine.find_transcations_using_invoice(id)
+  end
+
+  def find_items_using_id(id)
+    sales_engine.find_items_using_invoice(id)
+  end
+
 end

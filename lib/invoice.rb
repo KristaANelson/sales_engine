@@ -10,4 +10,12 @@ attr_reader :id, :customer_id, :merchant_id, :status, :created_at, :updated_at, 
     @updated_at   = row[:updated_at]
     @parent       = parent
   end
+
+  def transactions
+    parent.find_transactions_using_id(id)
+  end
+
+  def items
+    parent.find_items_using_id(id)
+  end
 end
