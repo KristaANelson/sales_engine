@@ -98,4 +98,27 @@ class SalesEngine
   def find_invoices_using_merchant(id)
     invoice_repository.find_all_by_merchant_id(id)
   end
+
+  def find_transactions_using_customer_id(id)
+    invoice_objects = invoice_repository.find_all_by_customer_id(id)
+    invoice_ids = invoice_objects.map {|invoice| invoice.id}
+    invoice_ids.map {|invoice_id| transaction_repository.find_all_by_invoice_id(invoice_id)}
+  end
+
+  def find_favorite_merchant_using_customer_id(id)
+    invoice_objects = invoice_repository.find_all_by_customer_id(id)
+    merchant_ids = invoice_objects.map {|invoice| invoice.merchant_id}
+    merchant_repository.find_by_id(favorite_merchant_id(merchant_ids))
+  end
+
+  def favorite_merchant_id(merchant_ids)
+    freq_hash = merchant_ids.inject(Hash.new(0)) do |hash, merchant_id|
+      hash[merchant_id] +=1
+      hash
+    end
+    merchant_ids.max_by {|merchant_id| freq_hash[merchant_id]}
+  end
+
 end
+
+Tina3turn

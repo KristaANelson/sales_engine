@@ -13,4 +13,12 @@ class Customer
   def invoices
      parent.find_invoices_using(id)
   end
+
+  def transactions
+    parent.find_transactions_using_customer_id(id)
+  end
+
+  def favorite_merchant
+    parent.find_favorite_merchant_using_customer_id(id)
+  end
 end
