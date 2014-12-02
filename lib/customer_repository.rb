@@ -29,4 +29,12 @@ class CustomerRepository
     @repository = csv.map { |row| Customer.new(row, self) }
   end
 
+  def find_transactions_using_customer_id(id)
+    sales_engine.find_transactions_using_customer_id(id)
+  end
+
+  def find_favorite_merchant_using_customer_id(id)
+    sales_engine.find_favorite_merchant_using_customer_id(id)
+  end
+
 end
