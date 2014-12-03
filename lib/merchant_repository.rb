@@ -38,6 +38,10 @@ class MerchantRepository
     sales_engine.returns_revenue_for_all_merchants_on_specific_date(merchant_repository_ids, date)
   end
 
+  def most_revenue(top_n_merchants)
+    repository.sort_by(&:revenue).reverse.take(top_n_merchants)
+  end
+
   def most_items(top_n_merchants)
     repository.sort_by(&:total_items_sold_for_a_merchant).reverse.take(top_n_merchants)
   end
