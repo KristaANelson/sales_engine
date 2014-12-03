@@ -19,8 +19,11 @@ class Transaction
     @parent     = parent
   end
 
-
   def invoice
     parent.find_invoices_using(invoice_id)
+  end
+
+  def success?
+    result == "success"
   end
 end

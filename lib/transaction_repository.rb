@@ -28,4 +28,50 @@ class TransactionRepository
   def find_invoices_using(invoice_id)
     sales_engine.find_invoices_using_invoice_id(invoice_id)
   end
+
+  def create_transaction(transaction_data, id)
+    data =
+    {
+      id: new_id,
+      invoice_id: id,
+      credit_card_number: transaction_data[:credit_card_number],
+      credit_card_expiration_date: transaction_data[:credit_card_expiration_date],
+      result: transaction_data[:result],
+      created_at: Date.today.to_s,
+      updated_at: Date.today.to_s
+    }
+    @repository << Transaction.new(data, self)
+  end
+
+  def new_id
+    @repository.max_by {|transaction| transaction.id}.id + 1
+  end
+
+
+  # def create_invoice_items(items, new_invoice_id)
+  #   grouped_items = items.group_by {|item| item}
+  #   grouped_items.each do |group|
+  #     insert_item(group, new_invoice_id)
+  #   end
+  # end
+  #
+  # def insert_item(group, new_invoice_id)
+  #   item = group.shift
+  #   data =
+  #   {
+  #     id: new_invoice_item_id,
+  #     item_id: item.id,
+  #     invoice_id: new_invoice_id,
+  #     quantity: group.flatten.size,
+  #     unit_price: item.unit_price,
+  #     created_at: Date.today.to_s,
+  #     updated_at: Date.today.to_s
+  #   }
+  #   @repository << InvoiceItem.new(data, self)
+  # end
+  #
+  # def new_invoice_item_id
+  #   @repository.max_by {|invoice_item| invoice_item.id}.id + 1
+  # end
+  #
 end

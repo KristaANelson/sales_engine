@@ -32,4 +32,12 @@ attr_reader :id,
   def invoice_items
     parent.find_invoice_items_using_invoice_id(id)
   end
+
+  def charge(transaction_data)
+    parent.create_transaction(transaction_data, id)
+  end
+
+  def charged?
+    transactions.any?(&:success?)
+  end
 end

@@ -119,6 +119,16 @@ class SalesEngine
     merchant_ids.max_by {|merchant_id| freq_hash[merchant_id]}
   end
 
-end
+  def create_invoice(customer, merchant, status, items)
+    new_invoice = invoice_repository.add(customer, merchant)
+    invoice_item_repository.add(new_invocie, items)
+  end
 
-Tina3turn
+  def create_invoice_items(items, new_invoice_id)
+    invoice_item_repository.create_invoice_items(items, new_invoice_id)
+  end
+
+  def create_transaction(transaction_data, id)
+    transaction_repository.create_transaction(transaction_data, id)
+  end
+end
