@@ -50,4 +50,7 @@ class ItemRepository
   #   item.invoice_items.reduce(0) {|sum, invoice_item| sum + invoice_item.quantity}
   # end
 
+  def find_highest_revenue_date_using_item(id)
+    sales_engine.find_highest_revenue_date_using_item(id)
+  end
 end

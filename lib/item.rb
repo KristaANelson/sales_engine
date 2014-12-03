@@ -32,4 +32,14 @@ class Item
     invoice_items.select {|invoice_item| invoice_item.invoice.charged?}
   end
 
+  def best_day
+    grouped_invoice_items_by_invoice_by_date = successful_invoice_items.group_by {|invoice_item| invoice_item.invoice.created_at}
+    grouped_invoice_items_by_invoice_by_date.each do |key, invoice_items|
+      sum = invoice_items.map(&:quantity).reduce(:+)
+      grouped_invoice_items_by_invoice_by_date[key] = sum
+    end
+    Date.parse(grouped_invoice_items_by_invoice_by_date.max_by {|date, quantity| quantity}.first)
+
+  end
+
 end
