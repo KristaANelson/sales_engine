@@ -32,4 +32,9 @@ class MerchantRepository
   def find_invoices_using(id)
     sales_engine.find_invoices_using_merchant(id)
   end
+
+  def revenue(date)   #using merchant id, this method call returns revenue for a specific date. have to go through:invoices, invoice_items, successful transactions, revenue
+    merchant_repository_ids = repository.map {|merchant| merchant.id}
+    sales_engine.returns_revenue_for_all_merchants_on_specific_date(merchant_repository_ids, date)
+  end
 end

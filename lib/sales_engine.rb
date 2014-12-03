@@ -121,7 +121,7 @@ class SalesEngine
 
   def create_invoice(customer, merchant, status, items)
     new_invoice = invoice_repository.add(customer, merchant)
-    invoice_item_repository.add(new_invocie, items)
+    invoice_item_repository.add(new_invoice, items)
   end
 
   def create_invoice_items(items, new_invoice_id)
@@ -130,5 +130,9 @@ class SalesEngine
 
   def create_transaction(transaction_data, id)
     transaction_repository.create_transaction(transaction_data, id)
+  end
+
+  def returns_revenue_for_all_merchants_on_specific_date(merchant_repository_ids, date)
+    invoice_repository.returns_revenue_for_all_merchants_on_specific_date(merchant_repository_ids, date)
   end
 end
