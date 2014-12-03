@@ -22,7 +22,7 @@ class Merchant
   end
 
   def total_items_sold_for_a_merchant
-    successful_invoice_items.reduce(0) {|sum, invoice_item| sum + invoice_item.quantity}
+    all_successful_invoice_items.reduce(0) {|sum, invoice_item| sum + invoice_item.quantity}
   end
 
   def all_successful_invoice_items
