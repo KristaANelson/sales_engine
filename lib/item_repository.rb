@@ -33,7 +33,7 @@ class ItemRepository
   end
 
   def most_revenue(top_n_items)
-      x = @repository.sort_by(&:total_revenue_for_each_item).reverse.take(top_n_items)
+      @repository.sort_by(&:total_revenue_for_each_item).reverse.take(top_n_items)
     # x = @repository.sort_by {|item| item_total_revenue(item)}[-top_n_items..-1].reverse
     # x = @repository.sort {|a,b| item_total_revenue(b) <=> item_total_revenue(a)}.take(5)   #try to make it owrk with top_n_items
   end

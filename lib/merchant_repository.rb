@@ -37,4 +37,9 @@ class MerchantRepository
     merchant_repository_ids = repository.map {|merchant| merchant.id}
     sales_engine.returns_revenue_for_all_merchants_on_specific_date(merchant_repository_ids, date)
   end
+
+  def most_items(top_n_merchants)
+    repository.sort_by(&:total_items_sold_for_a_merchant).reverse.take(top_n_merchants)
+  end
+
 end

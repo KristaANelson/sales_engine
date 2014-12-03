@@ -57,4 +57,8 @@ class InvoiceItemRepository
   def new_invoice_item_id
     @repository.max_by {|invoice_item| invoice_item.id}.id + 1
   end
+
+  # def successful_invoice_items
+  #   repository.select {|invoice_item| invoice_item.invoice.charged?}
+  # end
 end
