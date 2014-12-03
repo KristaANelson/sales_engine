@@ -46,4 +46,7 @@ class MerchantRepository
     repository.sort_by(&:total_items_sold_for_a_merchant).reverse.take(top_n_merchants)
   end
 
+  def find_customers_using_customer_id(customer_id)
+    sales_engine.find_customers_using_customer_id(customer_id)
+  end
 end

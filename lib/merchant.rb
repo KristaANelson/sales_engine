@@ -26,7 +26,11 @@ class Merchant
   end
 
   def all_successful_invoice_items
-    invoices.select {|invoice| invoice.charged?}.map {|invoice| invoice.invoice_items}.flatten
+    all_successful_invoices.map {|invoice| invoice.invoice_items}.flatten
+  end
+
+  def all_successful_invoices
+    invoices.select {|invoice| invoice.charged?}
   end
 
   def revenue(date = "all")
@@ -36,5 +40,21 @@ class Merchant
   def successful_invoice_items_by_date(date)
     return all_successful_invoice_items if date == "all"
     all_successful_invoice_items.select {|invoice_item| invoice_item.invoice.created_at == date}
+  end
+
+  def favorite_customer
+    favorite_customer_id = customer_frequencies.sort_by {|customer_id, instances| instances}.last.first
+    find_customers_using_customer_id(favorite_customer_id)
+  end
+
+  def customer_frequencies
+    all_successful_invoices.reduce(Hash.new(0)) do |hash, invoice|
+      hash[invoice.customer_id] +=1
+      hash
+    end
+  end
+
+  def find_customers_using_customer_id(customer_id)
+    parent.find_customers_using_customer_id(customer_id)
   end
 end
