@@ -67,7 +67,6 @@ class InvoiceRepository
     @repository << new_invoice
   end
 
-
   def new_id
     repository.max_by {|invoice| invoice.id}.id + 1
   end
@@ -75,4 +74,17 @@ class InvoiceRepository
   def create_transaction(transaction_data, id)
     sales_engine.create_transaction(transaction_data, id)
   end
+
+  def returns_revenue_for_all_merchants_on_specific_date(merchant_repository_ids, date)
+    invoice_items_successful_and_verified = successful_invoices(merchant_repository_ids, date).map {|invoice| find_invoice_items_using_invoice_id(invoice.id)}.flatten
+    invoice_items_successful_and_verified.reduce(0) {|sum, invoice_item| sum + (invoice_item.quantity * invoice_item.unit_price)}
+  end
+
+  def successful_invoices(merchant_repository_ids, date)
+    invoices_with_verified_merchant_ids = repository.select do |invoice|
+      (merchant_repository_ids.include?(invoice.merchant_id)) && (invoice.created_at == date)   #ask question about parenthesis strength. This does not work without parenthesis
+    end
+    invoices_with_verified_merchant_ids.select {|invoice| invoice.charged?}
+  end
+
 end
