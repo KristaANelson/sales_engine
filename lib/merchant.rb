@@ -57,4 +57,12 @@ class Merchant
   def find_customers_using_customer_id(customer_id)
     parent.find_customers_using_customer_id(customer_id)
   end
+
+  def customers_with_pending_invoices
+    unsuccessful_invoices.map {|invoice| invoice.customer}.uniq
+  end
+
+  def unsuccessful_invoices
+    invoices - all_successful_invoices
+  end
 end
