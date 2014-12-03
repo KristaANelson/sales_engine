@@ -7,8 +7,8 @@ class InvoiceItem
     @invoice_id  = row[:invoice_id].to_i
     @quantity    = row[:quantity].to_i
     @unit_price  = BigDecimal.new(row[:unit_price])/100
-    @created_at  = row[:created_at]
-    @updated_at  = row[:updated_at]
+    @created_at  = Date.parse(row[:created_at])
+    @updated_at  = Date.parse(row[:updated_at])
     @parent      = parent
   end
 
