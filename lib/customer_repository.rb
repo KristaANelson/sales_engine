@@ -16,9 +16,9 @@ class CustomerRepository
     @repository = customer_data.map {|row| Customer.new(row,self)}
   end
 
-  # def inspect
-  #   "I am a customer repo, inspect was called."
-  # end
+  def inspect
+    "I am a customer repo, inspect was called."
+  end
 
   def find_invoices_using(id)
     sales_engine.find_invoices_using_customer_id(id)
