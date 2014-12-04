@@ -76,7 +76,7 @@ class InvoiceRepository
     end
   end
 
-  def paid_invoice_items
+  def paid_invoice_items(merchant_repo_ids, date)
     successful_invoices(merchant_repo_ids, date).
     map {|invoice| find_invoice_items_using_invoice_id(invoice.id)}.flatten
   end
