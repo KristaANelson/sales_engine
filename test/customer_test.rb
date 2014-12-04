@@ -1,6 +1,8 @@
+# require 'simplecov'
+# SimpleCov.start
 require_relative 'test_helper'
 require 'customer'
-require 'customer_repository'
+require 'pry'
 
 class CustomerTest < Minitest::Test
   attr_reader :customer,
