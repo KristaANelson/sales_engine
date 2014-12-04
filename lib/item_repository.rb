@@ -38,7 +38,7 @@ class ItemRepository
   end
 
   def most_items(top_n_items)
-    x = @repository.sort_by(&:quantity_sold).reverse.take(top_n_items)
+    @repository.sort_by(&:quantity_sold).reverse.take(top_n_items)
   end
 
   def find_highest_revenue_date_using_item(id)

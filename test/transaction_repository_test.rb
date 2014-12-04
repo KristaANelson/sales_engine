@@ -1,3 +1,5 @@
+# require 'simplecov'
+# SimpleCov.start
 require_relative 'test_helper'
 require 'transaction_repository'
 require 'sales_engine'
@@ -5,23 +7,68 @@ require 'csv'
 
 class TransactionRepoTest < Minitest::Test
 
-  def test_find_by_credit_card_number_does_not_suck
-    repo = TransactionRepository.new([
-      Transaction.new({:credit_card_number => '4654405418249632'}, self),
-      Transaction.new({:credit_card_number => '4654405418249631'}, self),
-      Transaction.new({:credit_card_number => '4654405418249630'}, self)])
-    assert_equal "4654405418249632", repo.find_by_credit_card_number("4654405418249632").credit_card_number
+  attr_reader :data,
+              :parent,
+              :transaction_repository,
+              :filepath
+
+  def setup
+    @filepath = File.expand_path('../../test_data',  __FILE__)
+    @data = CSV.open("#{filepath}/test_transactions.csv", headers: true, header_converters: :symbol)
+    @parent = Minitest::Mock.new
+    @transaction_repository = TransactionRepository.new(parent, data)
   end
 
-  def test_find_all_by_result_does_not_suck
-    repo = TransactionRepository.new([
-      Transaction.new({:result => "success"}, self),
-      Transaction.new({:result => "success"}, self),
-      Transaction.new({:result => "success"}, self),
-      Transaction.new({:result => "success"}, self),
-      Transaction.new({:result => "success"}, self),
-      ])
-    assert_equal 5, repo.find_all_by_result("success").size
+  def test_find_all_id
+    assert_equal 1, transaction_repository.find_all_by_id(1).count
+    assert_equal [], transaction_repository.find_all_by_id(72)
+  end
+
+
+  def test_find_by_id
+    assert_equal 1, transaction_repository.find_by_id(1).invoice_id
+    assert_equal nil, transaction_repository.find_by_id(54)
+  end
+
+  def test_find_all_invoice_id
+    assert_equal 1, transaction_repository.find_all_by_invoice_id(1).count
+    assert_equal [], transaction_repository.find_all_by_invoice_id(72)
+  end
+
+
+  def test_find_by_invoice_id
+    assert_equal 1, transaction_repository.find_by_invoice_id(1).id
+    assert_equal nil, transaction_repository.find_by_invoice_id(54)
+  end
+
+  def test_find_all_by_created_at_date
+    assert_equal 10, transaction_repository.find_all_by_created_at(Date.parse('2012-03-27 14:53:59 UTC')).count
+    assert_equal [], transaction_repository.find_all_by_created_at(Date.parse('2012-04-27 14:54:09 UTC'))
+  end
+
+  def test_find_by_created_at_date
+    assert_equal Transaction, transaction_repository.find_by_created_at(Date.parse('2012-03-27 14:53:59 UTC')).class
+    assert_equal nil, transaction_repository.find_by_created_at(Date.parse('2012-04-27 14:54:09 UTC'))
+  end
+
+  def test_find_all_by_updated_at_date
+    assert_equal 10, transaction_repository.find_all_by_updated_at(Date.parse('2012-03-27 14:53:59 UTC')).count
+    assert_equal [], transaction_repository.find_all_by_updated_at(Date.parse('2012-04-27 14:54:09 UTC'))
+  end
+
+  def test_find_by_updated_at_date
+    assert_equal Transaction, transaction_repository.find_by_updated_at(Date.parse('2012-03-27 14:53:59 UTC')).class
+    assert_equal nil, transaction_repository.find_by_updated_at(Date.parse('2012-04-27 14:54:09 UTC'))
+  end
+
+  def test_find_items_find_invoices_using
+    parent.expect(:find_invoices_using_invoice_id, nil, [1])
+    transaction_repository.find_invoices_using(1)
+    parent.verify
+  end
+
+  def test_new_id_next_id
+  assert_equal 11, transaction_repository.new_id
   end
 
 end
