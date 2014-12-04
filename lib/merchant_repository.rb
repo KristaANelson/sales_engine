@@ -11,18 +11,13 @@ class MerchantRepository
 
   attr_reader :repository, :sales_engine
 
-  def initialize(sales_engine)
+  def initialize(sales_engine, merchant_data)
     @sales_engine = sales_engine
-    @repository = []
+    @repository = merchant_data.map {|row| Merchant.new(row, self)}
   end
 
   def inspect
     "I am a Merchant repo, inspect was called."
-  end
-
-  def loader(filepath)
-    csv = CSV.open(File.join(filepath, 'merchants.csv'), headers: true, header_converters: :symbol)
-    @repository = csv.map { |row| Merchant.new(row, self) }
   end
 
   def find_items_using(id)
@@ -33,17 +28,17 @@ class MerchantRepository
     sales_engine.find_invoices_using_merchant(id)
   end
 
-  def revenue(date)   #using merchant id, this method call returns revenue for a specific date. have to go through:invoices, invoice_items, successful transactions, revenue
+  def revenue(date)
     merchant_repository_ids = repository.map {|merchant| merchant.id}
-    sales_engine.returns_revenue_for_all_merchants_on_specific_date(merchant_repository_ids, date)
+    sales_engine.merchant_rev_by_date(merchant_repository_ids, date)
   end
 
   def most_revenue(top_n_merchants)
     repository.sort_by(&:revenue).reverse.take(top_n_merchants)
   end
 
-  def most_items(top_n_merchants)
-    repository.sort_by(&:total_items_sold_for_a_merchant).reverse.take(top_n_merchants)
+  def most_items(top_n)
+    repository.sort_by(&:total_items_sold_for_a_merchant).reverse.take(top_n)
   end
 
   def find_customers_using_customer_id(customer_id)
