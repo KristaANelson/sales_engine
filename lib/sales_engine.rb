@@ -15,31 +15,55 @@ require 'bigdecimal'
 
 class SalesEngine
 
-  attr_reader :merchant_repository,
-              :invoice_repository,
-              :item_repository,
-              :invoice_item_repository,
-              :customer_repository,
-              :transaction_repository,
-              :filepath
+  attr_accessor :merchant_repository,
+                :invoice_repository,
+                :item_repository,
+                :invoice_item_repository,
+                :customer_repository,
+                :transaction_repository,
+                :filepath
 
-  def initialize(filepath)    #represents a directory so I can pass in 'merchants.csv' into the suffix of filepath.
+  def initialize(filepath)
     @filepath = filepath
-    @merchant_repository     ||= MerchantRepository.new(self)
-    @invoice_repository      ||= InvoiceRepository.new(self)
-    @item_repository         ||= ItemRepository.new(self)
-    @invoice_item_repository ||= InvoiceItemRepository.new(self)
-    @customer_repository     ||= CustomerRepository.new(self)
-    @transaction_repository  ||= TransactionRepository.new(self)
   end
 
   def startup
-    merchant_repository.loader(filepath)
-    invoice_repository.loader(filepath)
-    item_repository.loader(filepath)
-    invoice_item_repository.loader(filepath)
-    customer_repository.loader(filepath)
-    transaction_repository.loader(filepath)
+    @merchant_repository     ||= MerchantRepository.new(self, merchant_data)
+    @invoice_repository      ||= InvoiceRepository.new(self, invoice_data)
+    @item_repository         ||= ItemRepository.new(self, item_data)
+    @invoice_item_repository ||= InvoiceItemRepository.new(self, inv_item_data)
+    @customer_repository     ||= CustomerRepository.new(self, customer_data)
+    @transaction_repository  ||= TransactionRepository.new(self, trans_data)
+  end
+
+  def merchant_data
+    CSV.open("#{filepath}/merchants.csv",
+    headers: true, header_converters: :symbol)
+  end
+
+  def invoice_data
+    CSV.open("#{filepath}/invoices.csv",
+    headers: true, header_converters: :symbol)
+  end
+
+  def item_data
+    CSV.open("#{filepath}/items.csv",
+    headers: true, header_converters: :symbol)
+  end
+
+  def inv_item_data
+    CSV.open("#{filepath}/invoice_items.csv",
+    headers: true, header_converters: :symbol)
+  end
+
+  def customer_data
+    CSV.open("#{filepath}/customers.csv",
+    headers: true, header_converters: :symbol)
+  end
+
+  def trans_data
+    CSV.open("#{filepath}/transactions.csv",
+    headers: true, header_converters: :symbol)
   end
 
   def find_invoices_using_customer_id(id)
@@ -81,10 +105,7 @@ class SalesEngine
   end
 
   def find_invoices_using_invoice_id(invoice_id)
-    # invoice_objects =
     invoice_repository.find_by_id(invoice_id)
-    # customer_ids = invoice_objects.map {|invoice_object| invoice_object.customer_id}
-    # customer_ids.map {|customer_id| customer_repository.find_all_by_id(customer_id)}
   end
 
   def find_customers_using_customer_id(customer_id)
@@ -102,7 +123,9 @@ class SalesEngine
   def find_transactions_using_customer_id(id)
     invoice_objects = invoice_repository.find_all_by_customer_id(id)
     invoice_ids = invoice_objects.map {|invoice| invoice.id}
-    invoice_ids.map {|invoice_id| transaction_repository.find_all_by_invoice_id(invoice_id)}
+    invoice_ids.map do |invoice_id|
+      transaction_repository.find_all_by_invoice_id(invoice_id)
+    end
   end
 
   def find_favorite_merchant_using_customer_id(id)
@@ -132,7 +155,7 @@ class SalesEngine
     transaction_repository.create_transaction(transaction_data, id)
   end
 
-  def returns_revenue_for_all_merchants_on_specific_date(merchant_repository_ids, date)
-    invoice_repository.returns_revenue_for_all_merchants_on_specific_date(merchant_repository_ids, date)
+  def merchant_rev_by_date(merchant_repository_ids, date)
+    invoice_repository.merchant_rev_by_date(merchant_repository_ids, date)
   end
 end

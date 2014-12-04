@@ -12,18 +12,13 @@ class InvoiceRepository
   attr_reader :repository, :sales_engine
   attr_accessor :new_invoice
 
-  def initialize(sales_engine)
+  def initialize(sales_engine, invoice_data)
     @sales_engine = sales_engine
-    @repository = []
+    @repository = invoice_data.map {|row| Invoice.new(row, self)}
   end
 
   def inspect
     "I am a Invoice repo, inspect was called."
-  end
-
-  def loader(filepath)
-    csv = CSV.open(File.join(filepath, 'invoices.csv'), headers: true, header_converters: :symbol)
-    @repository = csv.map { |row| Invoice.new(row, self) }
   end
 
   def find_transactions_using_id(id)
@@ -43,9 +38,9 @@ class InvoiceRepository
   end
 
   def create(invoice_data)
-    new_invoice_id = new_id
-    sales_engine.create_invoice_items(invoice_data[:items], new_invoice_id)
-    create_invoice(invoice_data[:customer], invoice_data[:merchant], new_invoice_id)
+    invoice_id = new_id
+    sales_engine.create_invoice_items(invoice_data[:items], invoice_id)
+    create_invoice(invoice_data[:customer], invoice_data[:merchant], invoice_id)
     insert_invoice
     new_invoice
   end
@@ -75,16 +70,26 @@ class InvoiceRepository
     sales_engine.create_transaction(transaction_data, id)
   end
 
-  def returns_revenue_for_all_merchants_on_specific_date(merchant_repository_ids, date)
-    invoice_items_successful_and_verified = successful_invoices(merchant_repository_ids, date).map {|invoice| find_invoice_items_using_invoice_id(invoice.id)}.flatten
-    invoice_items_successful_and_verified.reduce(0) {|sum, invoice_item| sum + (invoice_item.quantity * invoice_item.unit_price)}
+  def merchant_rev_by_date(merchant_repo_ids, date)
+    paid_invoice_items(merchant_repo_ids, date).reduce(0) do |sum, invoice_item|
+      sum + (invoice_item.quantity * invoice_item.unit_price)
+    end
   end
 
-  def successful_invoices(merchant_repository_ids, date)
-    invoices_with_verified_merchant_ids = repository.select do |invoice|
-      (merchant_repository_ids.include?(invoice.merchant_id)) && (invoice.created_at == date)   #ask question about parenthesis strength. This does not work without parenthesis
-    end
-    invoices_with_verified_merchant_ids.select {|invoice| invoice.charged?}
+  def paid_invoice_items
+    successful_invoices(merchant_repo_ids, date).
+    map {|invoice| find_invoice_items_using_invoice_id(invoice.id)}.flatten
+  end
+
+
+  def successful_invoices(merch_ids, date)
+    verified_invoices(merch_ids,date).select {|invoice| invoice.charged?}
+  end
+
+  def verified_invoices(merch_ids, date)
+    repository.select do |invoice|
+      (merch_ids.include?(invoice.merchant_id)) && (invoice.created_at == date)
+    end #ask question about parenthesis strength.
   end
 
 end

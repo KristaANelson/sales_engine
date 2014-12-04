@@ -1,5 +1,12 @@
 class InvoiceItem
-  attr_reader :id, :item_id, :invoice_id, :quantity, :unit_price, :created_at, :updated_at, :parent
+  attr_reader :id,
+              :item_id,
+              :invoice_id,
+              :quantity,
+              :unit_price,
+              :created_at,
+              :updated_at,
+              :parent
 
   def initialize(row, parent)
     @id          = row[:id].to_i

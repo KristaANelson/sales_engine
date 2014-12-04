@@ -22,7 +22,9 @@ class Merchant
   end
 
   def total_items_sold_for_a_merchant
-    all_successful_invoice_items.reduce(0) {|sum, invoice_item| sum + invoice_item.quantity}
+    all_successful_invoice_items.reduce(0) do |sum, invoice_item|
+       sum + invoice_item.quantity
+     end
   end
 
   def all_successful_invoice_items
@@ -34,17 +36,24 @@ class Merchant
   end
 
   def revenue(date = "all")
-    successful_invoice_items_by_date(date).reduce(0) {|sum, invoice_item| sum + (invoice_item.quantity * invoice_item.unit_price)}
+    successful_invoice_items_by_date(date).reduce(0) do |sum, invoice_item|
+      sum + (invoice_item.quantity * invoice_item.unit_price)
+    end
   end
 
   def successful_invoice_items_by_date(date)
     return all_successful_invoice_items if date == "all"
-    all_successful_invoice_items.select {|invoice_item| invoice_item.invoice.created_at == date}
+    all_successful_invoice_items.select do |invoice_item|
+      invoice_item.invoice.created_at == date
+    end
   end
 
   def favorite_customer
-    favorite_customer_id = customer_frequencies.sort_by {|customer_id, instances| instances}.last.first
     find_customers_using_customer_id(favorite_customer_id)
+  end
+
+  def favorite_customer_id
+    customer_frequencies.sort_by {|customer_id, instances| instances}.last.first
   end
 
   def customer_frequencies

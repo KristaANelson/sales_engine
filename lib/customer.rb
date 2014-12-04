@@ -1,5 +1,10 @@
 class Customer
-  attr_reader :id, :first_name, :last_name, :created_at, :updated_at, :parent
+  attr_reader :id,
+              :first_name,
+              :last_name,
+              :created_at,
+              :updated_at,
+              :parent
 
   def initialize(row, parent)
     @id         = row[:id].to_i

@@ -10,18 +10,13 @@ class InvoiceItemRepository
 
   attr_reader :repository, :sales_engine
 
-  def initialize(sales_engine)
+  def initialize(sales_engine, invoice_item_data)
     @sales_engine = sales_engine
-    @repository = []
+    @repository = invoice_item_data.map {|row| InvoiceItem.new(row, self)}
   end
 
   def inspect
     "I am a Invoice Item repo, inspect was called."
-  end
-
-  def loader(filepath)
-    csv = CSV.open(File.join(filepath, 'invoice_items.csv'), headers: true, header_converters: :symbol)
-    @repository = csv.map { |row| InvoiceItem.new(row, self) }
   end
 
   def find_item_using(item_id)

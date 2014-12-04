@@ -1,5 +1,4 @@
 module InvoiceItemRepositoryHelper
-  
   def find_by_item_id(criteria)
     find_by(:item_id, criteria)
   end

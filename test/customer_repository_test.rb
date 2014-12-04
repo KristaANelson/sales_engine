@@ -4,20 +4,25 @@ require 'csv'
 require 'pry'
 
 class CustomerRepoTest <Minitest::Test
-  def test_find_all_by_last_name
-    repo = CustomerRepository.new([
-      Customer.new({:last_name => 'Smith'}, self),
-      Customer.new({:last_name => 'Smith'}, self),
-      Customer.new({:last_name => 'Cheek'}, self)
-    ])
 
-    assert_equal 'Cheek', repo.find_all_by_last_name('Cheek').first.last_name
-    assert_equal 2, repo.find_all_by_last_name('Smith').count
-    binding.pry
-    assert_equal 'Smith', repo.find_all_by_last_name('Smith')[1].last_name
-    assert_equal 'Smith', repo.find_all_by_last_name('Smith')[0].last_name
-    assert_equal [], repo.find_all_by_last_name('O.o')
+  attr_reader :data,
+              :parent,
+              :customer_repository,
+              :filepath
+
+  def setup
+    @filepath = File.expand_path('../../test_data',  __FILE__)
+    @data = CSV.open("#{filepath}/test_customers.csv", headers: true, header_converters: :symbol)
+    @parent = Minitest::Mock.new
+    @customer_repository = CustomerRepository.new(parent, data)
   end
 
+
+  def test_find_all_by_last_name
+    assert_equal 4, customer_repository.find_all_by_last_name('Ondricka').count
+    assert_equal 1, customer_repository.find_all_by_last_name('Nader').count
+    assert_equal "Joey", customer_repository.find_all_by_last_name('Ondricka').first.first_name
+    assert_equal [], customer_repository.find_all_by_last_name('Smith')
+  end
 
 end
