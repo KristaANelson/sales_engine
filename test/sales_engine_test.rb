@@ -10,8 +10,22 @@ require "item_repository"
 require "sales_engine"
 
 class SalesEngineTest < Minitest::Test
-  def test_sales_engine_startup_method_loads_all_repositories
+
+
+  def test_right_filepath_is_loaded
+    filepath = File.expand_path('../../test_data', __FILE__)
+    engine = SalesEngine.new(filepath)
+    assert_equal "/Users/Jwan/Dropbox/Turing/projects/sales_engine/test_data", engine.filepath
+  end
+
+  def test_can_load_different_filepath
     filepath = File.expand_path('../../data', __FILE__)
+    engine = SalesEngine.new(filepath)
+    assert_equal "/Users/Jwan/Dropbox/Turing/projects/sales_engine/data", engine.filepath
+  end
+
+  def test_sales_engine_startup_method_loads_all_repositories
+    filepath = File.expand_path('../../test_data', __FILE__)
     engine = SalesEngine.new(filepath)
     engine.startup
     assert engine.merchant_repository
@@ -22,12 +36,13 @@ class SalesEngineTest < Minitest::Test
     assert engine.transaction_repository
   end
 
-  def test_load_csv_data_method_loads_objects
-    # merchant_repo = MerchantRepository.new
-    # merchant_repo.load_file('test_merchants.csv')
+  def test_sales_engine_startup_method_loads_whole_file
     filepath = File.expand_path('../../test_data', __FILE__)
     engine = SalesEngine.new(filepath)
-    file = engine.load_csv_data(filepath, 'test_merchants.csv', Merchant)
-    assert_equal 13, file.size
+    engine.startup
+    assert_equal 10, engine.transaction_repository.repository.count
+    assert_equal 23, engine.customer_repository.repository.count
+    assert_equal 10, engine.item_repository.repository.count
   end
+
 end
