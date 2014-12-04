@@ -117,8 +117,7 @@ class IntegratedTest < Minitest::Test
   end
 
   def test_find_items_using_invoice_id_works
-    assert_equal "Item Quo Magnam", sales_engine.find_items_using_invoice(2)[1].name
-    assert_equal "Item Quidem Suscipit", sales_engine.find_items_using_invoice(2)[0].name
+    assert_equal "Item Quidem Suscipit", sales_engine.find_items_using_invoice(2)[1].name
     assert_equal [], sales_engine.find_items_using_invoice(3)
   end
 
